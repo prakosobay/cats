@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('cats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('type_id')->constrained('master_types')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('name');
+            $table->string('gender');
+            $table->string('color');
+            $table->string('food');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
