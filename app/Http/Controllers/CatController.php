@@ -44,6 +44,29 @@ class CatController extends Controller
 
     public function edit($id)
     {
+        $cat = Cat::findOrFail($id);
+        $types = MasterType::all();
+        return view('cat.edit', compact('cat', 'types'));
+    }
 
+    public function update(Request $request, $id)
+    {
+
+    }
+
+    public function delete($id)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $get = Cat::findOrFail($id);
+            $get->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

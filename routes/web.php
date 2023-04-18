@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
+});
+
+Route::controller(CatController::class, function () {
+    Route::post('cat/store', 'store')->name('store.cat');
+    Route::post('cat/update/{id}', 'update')->name('update.cat');
+    Route::post('cat/delete/{id}', 'delete')->name('delete.cat');
+    Route::get('cat/edit/{id}', 'edit')->name('edit.cat');
 });
