@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('gender');
             $table->string('color');
+            $table->foreignId('food_id')->constrained('foods')->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

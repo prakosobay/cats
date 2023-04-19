@@ -15,10 +15,16 @@ class Cat extends Model
         'gender',
         'type_id',
         'color',
+        'food_id',
     ];
 
     public function typeId()
     {
         return $this->belongsTo(MasterType::class, 'type_id');
+    }
+
+    public function foodId()
+    {
+        return $this->belongsTo(Food::class, 'food_id');
     }
 }

@@ -31,6 +31,7 @@ Route::controller(CatController::class)->group(function(){
     Route::get('/', 'index')->name('dashboard.cat');
     Route::get('cat/type', 'type_sum')->name('type.cat');
     Route::get('cat/food', 'food_sum')->name('food.cat');
+    Route::post('cat/food', 'store_food_sum')->name('sumFood.cat');
     Route::get('cat/spend', 'spend_sum')->name('spend.cat');
 });
 

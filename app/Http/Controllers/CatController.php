@@ -10,12 +10,7 @@ class CatController extends Controller
 {
     public function index()
     {
-        $cats = DB::table('cats')
-            ->join('cat_foods', 'cat_foods.cat_id', '=', 'cats.id')
-            ->join('foods', 'cat_foods.food_id', '=', 'foods.id')
-            ->join('master_types', 'cats.type_id', '=', 'master_types.id')
-            ->select('cats.*', 'foods.name as food_name', 'master_types.name as type_name')
-            ->get();
+        $cats = Cat::with(['typeId:id,name', 'foodId:id,name'])->get();
         return view('dashboard', compact('cats'));
     }
 
@@ -45,6 +40,7 @@ class CatController extends Controller
                 'gender' => $request->gender,
                 'type_id' => $request->type_id,
                 'color' => $request->color,
+                'food_id' => $request->food_id
             ]);
 
             DB::commit();
@@ -70,7 +66,7 @@ class CatController extends Controller
             'gender' => ['required', 'string', 'max:255'],
             'type_id' => ['numeric', 'required'],
             'color' => ['required', 'string', 'max:255'],
-            'food' => ['required'],
+            'food_id' => ['required'],
         ]);
 
         DB::beginTransaction();
@@ -83,6 +79,7 @@ class CatController extends Controller
                 'gender' => $request->gender,
                 'type_id' => $request->type_id,
                 'color' => $request->color,
+                'food_id' => $request->food_id,
             ]);
 
             DB::commit();
@@ -123,11 +120,47 @@ class CatController extends Controller
 
     public function food_sum()
     {
-        return view('foodSum', compact('sum'));
+        $types = MasterType::all();
+        $foods = Food::all();
+        $amountFoods = DB::table('food_types')
+                ->join('foods', 'food_types.food_id', '=', 'foods.id')
+                ->join('master_types', 'food_types.type_id', '=', 'master_types.id')
+                ->select('food_types.amount', 'foods.name as food_name', 'master_types.name as type_name')
+                ->get();
+        return view('foodSum', compact('amountFoods', 'types', 'foods'));
+    }
+
+    public function store_food_sum(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            DB::table('food_types')->insert([
+                'type_id' => $request->type_id,
+                'food_id' => $request->food_id,
+                'amount' => $request->amount,
+            ]);
+
+            DB::commit();
+            return back()->with('success', 'Submited');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function spend_sum()
     {
-        return view('spendSum', compact('sum'));
+        $topFoods = DB::table('cats')
+            ->join('master_types', 'cats.type_id', '=', 'master_types.id')
+            ->join('food_types', 'master_types.id', '=', 'food_types.type_id')
+            ->join('foods', 'food_types.food_id', '=', 'foods.id')
+            ->select('master_types.name as cat_type', 'foods.name as food_name', DB::raw('sum(food_types.amount) as total'))
+            ->groupBy('master_types.name', 'foods.name')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->get();
+        return view('spendSum', compact('topFoods'));
     }
 }

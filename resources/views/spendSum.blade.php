@@ -3,7 +3,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h1 class="h3 mb-2 text-gray-800 text-center">Amount of Food</h1>
+        <h1 class="h3 mb-2 text-gray-800 text-center">Top Spend Food</h1>
     </div>
 
     @if (session('success'))
@@ -29,6 +29,13 @@
                     </tr>
                 </thead>
                 <tbody class="isi-table text-center">
+                    @foreach ( $topFoods as $spend )
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $spend->cat_type }}</td>
+                            <td>{{ $spend->total }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
