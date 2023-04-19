@@ -74,7 +74,11 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('table.type')}}">Master Type</a>
+                        <a class="collapse-item" href="{{ route('table.food')}}">Master Food</a>
                         <a class="collapse-item" href="{{ url('/')}}">List of Cats</a>
+                        <a class="collapse-item" href="{{ route('type.cat')}}">Type of Cats</a>
+                        <a class="collapse-item" href="{{ route('food.cat')}}">Amount of Foods</a>
+                        <a class="collapse-item" href="{{ route('spend.cat')}}">Top Food Spend</a>
                     </div>
                 </div>
             </li>

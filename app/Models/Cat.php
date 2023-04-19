@@ -15,7 +15,6 @@ class Cat extends Model
         'gender',
         'type_id',
         'color',
-        'food',
     ];
 
     public function typeId()

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CatController;
+use App\Http\Controllers\FoodController;
 use App\Http\Controllers\TypeController;
 use App\Models\MasterType;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,9 @@ Route::controller(CatController::class)->group(function(){
     Route::get('cat/edit/{id}', 'edit')->name('edit.cat');
     Route::get('cat/tambah', 'tambah')->name('tambah.cat');
     Route::get('/', 'index')->name('dashboard.cat');
+    Route::get('cat/type', 'type_sum')->name('type.cat');
+    Route::get('cat/food', 'food_sum')->name('food.cat');
+    Route::get('cat/spend', 'spend_sum')->name('spend.cat');
 });
 
 Route::controller(TypeController::class)->group(function () {
@@ -36,4 +40,12 @@ Route::controller(TypeController::class)->group(function () {
     Route::post('type/store', 'store')->name('store.type');
     Route::post('type/update/{id}', 'update')->name('update.type');
     Route::post('type/delete/{id}', 'delete')->name('delete.type');
+});
+
+Route::controller(FoodController::class)->group(function () {
+    Route::get('food/table', 'table')->name('table.food');
+    Route::get('food/edit/{id}', 'edit')->name('edit.food');
+    Route::post('food/store', 'store')->name('store.food');
+    Route::post('food/update/{id}', 'update')->name('update.food');
+    Route::post('food/delete/{id}', 'delete')->name('delete.food');
 });

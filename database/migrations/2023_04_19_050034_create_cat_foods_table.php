@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cats', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('type_id')->constrained('master_types')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('name');
-            $table->string('gender');
-            $table->string('color');
-            $table->softDeletes();
+        Schema::create('cat_foods', function (Blueprint $table) {
+            $table->foreignId('cat_id')->constrained('cats')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('food_id')->constrained('foods')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('amount')->default(0);
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cats');
+        Schema::dropIfExists('cat_foods');
     }
 };

@@ -65,8 +65,13 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="food" class="form-label"><b>Food :</b></label>
-                            <input type="text" name="food" value="{{ old('food')}}" class="form-control" id="food" required>
+                            <label for="food_id" class="form-label"><b>Food :</b></label>
+                            <select name="food_id" id="food_id" class="form-select" required>
+                                <option selected></option>
+                                @foreach ( $foods as $food )
+                                    <option value="{{ $food->id }}">{{ $food->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
